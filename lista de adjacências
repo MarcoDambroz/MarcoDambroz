@@ -1,0 +1,190 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+
+void init(void);
+void conecta(void);
+void mostrar(void);
+void desconectar();
+
+struct nodo
+{
+   int info;
+   struct nodo *lig;
+};
+
+struct nodo *vet[3];
+
+struct nodo *p;
+
+
+
+main()
+{
+	int op;
+	init();
+	for(;;)
+	{
+		printf("\n1- Conectar: ");
+        printf("\n2- Mostrar: ");
+        printf("\n3- Inicializar uma vetor: ");
+        printf("\n4- Desconectar: ");
+        printf("\n0- Sair: ");
+        
+		printf("\nEscolha uma opcao: ");
+        scanf("%d",&op);
+    
+        switch(op)
+        {
+        	case 1: conecta(); break;
+        	case 2: mostrar(); break;
+        	case 3: init(); break;
+        	case 4: desconectar(); break;
+        	case 0: exit(1); break;
+        	default: printf("\nVoce escolheu uma opcao errada...");
+        	
+		}
+	}
+	
+     init();     
+     conecta();
+     mostrar();
+    desconectar();
+
+      
+   //   system("pause");
+
+}
+
+
+void init(void)
+{
+      for(int i=0; i<3; i++)
+      {
+          vet[i] = NULL;
+          printf("\nValor [%d] = %s",i, vet[i]); 
+          
+      }    
+     
+}
+     
+
+
+void conecta(void)
+{
+     struct nodo *j;
+     int a, b;
+     printf("\nInforme o vertice origem: ");
+     scanf("%d", &a);
+     
+     printf("\nInforme o vertice destino: ");
+     scanf("%d", &b);
+
+     j=vet[a-1];
+     
+     p = (struct nodo *) malloc(sizeof(struct nodo)); //Aloca mem�ria
+       if(p != NULL) //Se conseguiu alocar mem�ria para o novo n�
+       {
+          if(vet[a-1]==NULL)
+          {
+              vet[a-1]=p;             
+          }
+          else
+          {
+              while(j->lig != NULL)
+              {
+                           j=j->lig;
+              }               
+              j->lig = p;  
+          }    
+
+          p->info = b;
+          p->lig = NULL;
+
+       }   
+}
+
+
+void mostrar(void)
+{
+     
+  for(int i=0; i<3; i++)
+  {
+   printf("\n\n\nLISTA[%d]......", i+1);       
+   if(vet[i] == NULL)
+      printf("LISTA VAZIA");
+   else
+   {        
+    p = vet[i]; //Usa ponteiro p para apontar para o in�cio da lista.
+    printf("\nElementos da lista \n");
+    
+    while (p != NULL) //Enquanto n�o chega ao final da lista
+    {
+      printf("\nEndereco: %d - Valor: %d ",p, p->info);
+      p = p->lig; 
+    }
+  } 
+  }//fim do for
+  
+  printf("\n");
+  
+}
+
+ void desconectar()
+{
+	struct dados *pa; //ponteiro usado para percorrer a lista
+	
+	int a, b, flag=0;
+	
+	 printf("\nInforme o vertice origem: ");
+     scanf("%d", &a);
+     
+     printf("\nInforme o vertice destino: ");
+     scanf("%d", &b);
+
+    // j=vet[a-1];
+     
+     
+    
+	if(vet[a-1]== NULL)
+		printf("\nA Lista esta vazia.\n");
+	else
+    {
+      p = vet[a-1]; //Aqui p � usado para percorrer a lista
+      
+	  while(p != NULL)
+      {
+         if(p->info == b)
+         {
+              if(vet[a-1] == p)
+              {
+                     
+                 vet[a-1] = p->lig; 
+                
+              }
+              else
+              {
+                  
+                   pa->lig = p->lig;       
+              }
+             
+              flag = 1;
+              free(p);
+              break;
+        }
+        else
+	    {
+             j = p;
+	         p = p->lig;
+        }//fim do else    
+      }//fim do while
+      
+      if(flag == 0)
+        printf("Elemento nao foi encontrado na lista.");
+
+   }//fim do else
+   mostrar();
+}
+
+
+
